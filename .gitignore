@@ -1,0 +1,21 @@
+# .NET Core build outputs
+bin/
+obj/
+out/
+appsettings.Development.json
+
+# Node.js folders
+node_modules/
+
+# IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Docker/Logs/Database
+logs/
+*.log
+.env
+update_user.sql
+pgdata/
