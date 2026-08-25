@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://librarymanagementsystem-net8.onrender.com';
 
 class LibraryApp {
   constructor() {
