@@ -386,7 +386,61 @@ using (var scope = app.Services.CreateScope())
         }
         else
         {
-            Console.WriteLine("Database already contains data. Seeding skipped.");
+            Console.WriteLine("Database already contains schema. Checking for missing records...");
+            
+            // Check if we need to seed Borrowings
+            if (!context.Borrowings.Any())
+            {
+                Console.WriteLine("Seeding fallback Borrowings...");
+                var standardUser = await context.Users.FirstOrDefaultAsync(u => u.Email == "user@library.com")
+                                   ?? await context.Users.FirstOrDefaultAsync();
+                var book = await context.Books.FirstOrDefaultAsync(b => b.Title == "Kürk Mantolu Madonna") 
+                           ?? await context.Books.FirstOrDefaultAsync();
+
+                if (standardUser != null && book != null)
+                {
+                    var loan = new Borrowing
+                    {
+                        UserId = standardUser.Id,
+                        BookId = book.Id,
+                        BorrowedAt = DateTime.UtcNow.AddDays(-5),
+                        DueAt = DateTime.UtcNow.AddDays(9),
+                        Status = "borrowed",
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow
+                    };
+                    context.Borrowings.Add(loan);
+                    await context.SaveChangesAsync();
+                    Console.WriteLine("Seeded 1 active borrowing.");
+                }
+            }
+
+            // Check if we need to seed Reservations
+            if (!context.Reservations.Any())
+            {
+                Console.WriteLine("Seeding fallback Reservations...");
+                var standardUser = await context.Users.FirstOrDefaultAsync(u => u.Email == "user@library.com")
+                                   ?? await context.Users.FirstOrDefaultAsync();
+                var book = await context.Books.FirstOrDefaultAsync(b => b.Title == "İnce Memed") 
+                           ?? await context.Books.FirstOrDefaultAsync();
+
+                if (standardUser != null && book != null)
+                {
+                    var res = new Reservation
+                    {
+                        UserId = standardUser.Id,
+                        BookId = book.Id,
+                        ReservedAt = DateTime.UtcNow,
+                        Status = "pending",
+                        QueuePosition = 1,
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow
+                    };
+                    context.Reservations.Add(res);
+                    await context.SaveChangesAsync();
+                    Console.WriteLine("Seeded 1 active reservation.");
+                }
+            }
         }
     }
     catch (Exception ex)
