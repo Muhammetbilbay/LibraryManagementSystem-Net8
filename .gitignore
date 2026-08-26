@@ -19,3 +19,5 @@ logs/
 .env
 update_user.sql
 pgdata/
+dist/
+frontend/dist/
