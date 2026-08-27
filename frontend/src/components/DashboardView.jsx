@@ -156,8 +156,8 @@ function DashboardView({ token, user }) {
   return (
     <section id="dashboardView" className="view-panel">
       {/* Metrics Row */}
-      <div className="metrics-row">
-        <div className="kpi-card blue">
+      <div className="kpi-grid">
+        <div className="kpi-card cyan">
           <div className="kpi-body">
             <span className="kpi-title">Toplam Kitap / Eser</span>
             <span className="kpi-value">{metrics.totalBooksQuantity} / {metrics.totalTitles}</span>
