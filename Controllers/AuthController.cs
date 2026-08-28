@@ -35,6 +35,11 @@ namespace LibraryAPI.Controllers
                     return BadRequest(new { error = "Name, email, and password are required." });
                 }
 
+                if (request.Password.Length < 5)
+                {
+                    return BadRequest(new { error = "Şifre en az 5 karakter uzunluğunda olmalıdır." });
+                }
+
                 // Check if user already exists
                 var existingUser = await _context.Users.AnyAsync(u => u.Email == request.Email);
                 if (existingUser)
@@ -217,6 +222,11 @@ namespace LibraryAPI.Controllers
                 if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Code) || string.IsNullOrEmpty(request.NewPassword))
                 {
                     return BadRequest(new { error = "Email, code, and newPassword are required." });
+                }
+
+                if (request.NewPassword.Length < 5)
+                {
+                    return BadRequest(new { error = "Şifre en az 5 karakter uzunluğunda olmalıdır." });
                 }
 
                 var user = await _context.Users.FirstOrDefaultAsync(u =>

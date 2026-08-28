@@ -58,6 +58,15 @@ function AuthView({ setToken, setUser }) {
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
+    if (regPassword.length < 5) {
+      Swal.fire({
+        title: 'Kayıt Hatası',
+        text: 'Şifre en az 5 karakter uzunluğunda olmalıdır.',
+        icon: 'warning',
+        confirmButtonText: 'Tamam'
+      });
+      return;
+    }
     try {
       const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
@@ -136,6 +145,15 @@ function AuthView({ setToken, setUser }) {
 
   const handlePasswordResetSubmit = async (e) => {
     e.preventDefault();
+    if (newPassword.length < 5) {
+      Swal.fire({
+        title: 'Hata',
+        text: 'Şifre en az 5 karakter uzunluğunda olmalıdır.',
+        icon: 'warning',
+        confirmButtonText: 'Tamam'
+      });
+      return;
+    }
     try {
       const response = await fetch(`${API_URL}/auth/reset-password`, {
         method: 'POST',
